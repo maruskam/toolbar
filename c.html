@@ -1,0 +1,101 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+<head>
+	<meta charset="utf-8">
+	<script src="./jquery-3.0.0.js"></script>
+	<script src="./jquery-ui.js"></script>
+	
+	<title></title>
+		<style>
+			#flex_left {
+				outline: 1px solid green;
+				width: 40px;
+				height: 400px;
+				position:absolute;
+				top:30%;
+				left:10px;
+			
+			}
+			#flex_top{
+				outline: 1px solid green;
+				width: 400px;
+				height: 40px;
+				position:absolute;
+				top:10px;
+				left:30%;
+				z-index: 1;
+
+			}
+			#flex {
+				display: -ms-flexbox;
+				display: -webkit-flex;
+				display: flex;
+					margin: 0 auto;
+				outline: 1px solid green;
+				width: 400px;
+				justify-content: space-around;
+				z-index: 10;
+			
+			}
+			.child {
+				-moz-box-sizing: border-box;
+				box-sizing: border-box;
+				padding: 1em;
+			}
+			.child1 { background-color: #ddd; }
+			.child2 { background-color: #bbb; }
+			.child3 { background-color: green; }
+		</style>
+		<script>
+			function allowDrop(ev) {
+			    ev.preventDefault();
+			}
+
+			function drag(ev) {
+			    ev.dataTransfer.setData("text", ev.target.id);
+			}
+
+			function drop(ev) {
+			    ev.preventDefault();
+			    rotate("v");
+			    var data = ev.dataTransfer.getData("text");
+			    ev.target.appendChild(document.getElementById(data));
+			}
+			function rotate(direction){
+				$("#flex").attr("m-direction",direction);
+				if(direction=="v"){
+					$("#flex").css("width","40px");
+					$("#flex").css("height","400px");
+					$("#flex").css("flex-direction","column");
+					
+				}else{
+					$("#flex").css("width","400px");
+					$("#flex").css("height","40px");
+					$("#flex").css("flex-direction","row");
+					
+				}
+		}
+		function dropm(ev) {
+			    ev.preventDefault();
+			    rotate("h");
+			    var data = ev.dataTransfer.getData("text");
+			    ev.target.appendChild(document.getElementById(data));
+			}
+		</script>
+
+	</head>
+<body>
+<div id="flex" draggable="true" ondragstart="drag(event)">
+	<div class="child child1">a
+	</div>
+	<div class="child child2">b
+	</div>
+	<div class="child child3">c
+	</div>
+</div>
+
+<div id="flex_left" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+<div id="flex_top" ondrop="dropm(event)" ondragover="allowDrop(event)"></div>
+
+</body>
+</html>
