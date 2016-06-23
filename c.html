@@ -2,12 +2,13 @@
 <html>
 <head>
 	<meta charset="utf-8">
-	<script src="https://code.jquery.com/jquery-3.0.0.min.js"></script>
+	<script src="./jquery-3.0.0.js"></script>
+	<script src="./jquery-ui.js"></script>
 	
 	<title></title>
 		<style>
 			#flex_left {
-				outline: 1px solid green;
+				outline: 1px dashed #666666;
 				width: 40px;
 				height: 400px;
 				position:absolute;
@@ -16,12 +17,30 @@
 			
 			}
 			#flex_top{
-				outline: 1px solid green;
+				outline: 1px dashed #666666;
 				width: 400px;
 				height: 40px;
 				position:absolute;
 				top:10px;
 				left:30%;
+				z-index: 1;
+			}
+			#flex_bottom{
+				outline: 1px dashed #666666;
+				width: 400px;
+				height: 40px;
+				position:absolute;
+				bottom:10px;
+				left:30%;
+				z-index: 1;
+			}
+			#flex_right{
+				outline: 1px dashed #666666;
+				width: 40px;
+				height: 400px;
+				position:absolute;
+				right:10px;
+				top:30%;
 				z-index: 1;
 
 			}
@@ -29,17 +48,20 @@
 				display: -ms-flexbox;
 				display: -webkit-flex;
 				display: flex;
-					margin: 0 auto;
+				margin: 0 auto;
 				outline: 1px solid green;
 				width: 400px;
+				height: 40px;
 				justify-content: space-around;
 				z-index: 10;
+				
 			
 			}
 			.child {
 				-moz-box-sizing: border-box;
 				box-sizing: border-box;
-				padding: 1em;
+				padding: 1.0em;
+				vertical-align: middle;
 			}
 			.child1 { background-color: #ddd; }
 			.child2 { background-color: #bbb; }
@@ -48,6 +70,7 @@
 		<script>
 			function allowDrop(ev) {
 			    ev.preventDefault();
+			    ev.currentTarget.style.backgroundColor="yellow";
 			}
 
 			function drag(ev) {
@@ -56,6 +79,7 @@
 
 			function drop(ev) {
 			    ev.preventDefault();
+			    ev.currentTarget.style.backgroundColor="#ffffff"
 			    rotate("v");
 			    var data = ev.dataTransfer.getData("text");
 			    ev.target.appendChild(document.getElementById(data));
@@ -76,15 +100,28 @@
 		}
 		function dropm(ev) {
 			    ev.preventDefault();
+			    ev.currentTarget.style.backgroundColor="#ffffff"
 			    rotate("h");
 			    var data = ev.dataTransfer.getData("text");
 			    ev.target.appendChild(document.getElementById(data));
+			}
+			function allowLeave(ev){
+				 ev.preventDefault();
+			    ev.currentTarget.style.backgroundColor="#ffffff"
+			   
 			}
 		</script>
 
 	</head>
 <body>
-<div id="flex" draggable="true" ondragstart="drag(event)">
+
+
+<div id="flex_bottom" ondrop="dropm(event)" ondragover="allowDrop(event)" ondragleave="allowLeave(event)"></div>
+<div id="flex_left" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="allowLeave(event)"></div>
+<div id="flex_right" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="allowLeave(event)"></div>
+
+<div id="flex_top" ondrop="dropm(event)" ondragover="allowDrop(event)" ondragleave="allowLeave(event)">
+	<div id="flex" draggable="true" ondragstart="drag(event)">
 	<div class="child child1">a
 	</div>
 	<div class="child child2">b
@@ -92,9 +129,7 @@
 	<div class="child child3">c
 	</div>
 </div>
-
-<div id="flex_left" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
-<div id="flex_top" ondrop="dropm(event)" ondragover="allowDrop(event)"></div>
-
+	
+</div>
 </body>
 </html>
